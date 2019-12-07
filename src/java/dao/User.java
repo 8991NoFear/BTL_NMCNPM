@@ -2,12 +2,12 @@ package dao;
 
 public class User {
     private int userID;
-    private String name;
+    private String username;
     private String email;
-    private int phone;
-    private String address;
+    private String password;
+    private boolean isAdmin;
     
-    public User() {
+    public User(){
         
     }
 
@@ -19,12 +19,12 @@ public class User {
         this.userID = userID;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -35,20 +35,20 @@ public class User {
         this.email = email;
     }
 
-    public int getPhone() {
-        return phone;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPhone(int phone) {
-        this.phone = phone;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getAddress() {
-        return address;
+    public boolean isIsAdmin() {
+        return isAdmin;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
     
 }
