@@ -8,51 +8,64 @@ import java.sql.SQLException;
 import bean.User;
 
 public class DBUtil {
-	 public static User findUser(Connection conn, String username, String password) throws SQLException {
+	public static User findUser(Connection conn, String username, String password) throws SQLException {
 	 
-	        String sql = "Select * from [USER] "
-	                + " where username = ? and password = ?;";
+        String sql = "Select * from [USER] "
+                + " where username = ? and password = ?;";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, username);
+        pstm.setString(2, password);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            String email = rs.getString("email");
+            Boolean isAdmin = rs.getBoolean("isAdmin");
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setEmail(email);
+            user.setIsAdmin(isAdmin);
+            return user;
+        }
+        return null;
+	}
 	 
-	        PreparedStatement pstm = conn.prepareStatement(sql);
-	        pstm.setString(1, username);
-	        pstm.setString(2, password);
-	        ResultSet rs = pstm.executeQuery();
-	        if (rs.next()) {
-	            String email = rs.getString("email");
-	            Boolean isAdmin = rs.getBoolean("isAdmin");
-	            User user = new User();
-	            user.setUsername(username);
-	            user.setPassword(password);
-	            user.setEmail(email);
-	            user.setIsAdmin(isAdmin);
-	            return user;
-	        }
-	        return null;
-	    }
+	public static User findUser(Connection conn, String username) throws SQLException {
 	 
-	    public static User findUser(Connection conn, String username) throws SQLException {
-	 
-	    	String sql = "Select * from [USER] "
-	                + " where username = ?;";
-	 
-	        PreparedStatement pstm = conn.prepareStatement(sql);
-	        pstm.setString(1, username);
-	 
-	        ResultSet rs = pstm.executeQuery();
-	 
-	        if (rs.next()) {
-	            String password = rs.getString("password");
-	            String email = rs.getString("email");
-	            Boolean isAdmin = rs.getBoolean("isAdmin");
-	            User user = new User();
-	            user.setUsername(username);
-	            user.setPassword(password);
-	            user.setEmail(email);
-	            user.setIsAdmin(isAdmin);
-	            return user;
-	        }
-	        return null;
-	    }
+		String sql = "Select * from [USER] "
+				+ " where username = ?;";
+		 
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, username);
+ 
+        ResultSet rs = pstmt.executeQuery();
+ 
+        if (rs.next()) {
+            String password = rs.getString("password");
+			String email = rs.getString("email");
+			Boolean isAdmin = rs.getBoolean("isAdmin");
+		    User user = new User();
+		    user.setUsername(username);
+		    user.setPassword(password);
+		    user.setEmail(email);
+		    user.setIsAdmin(isAdmin);
+		    return user;
+        }
+        return null;
+	}
+	
+	public static void addUser(Connection conn, User user) throws SQLException {
+		String sql = "Insert into [USER] values (?, ?, ?, 0)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, user.getUsername());
+		pstmt.setString(2, user.getEmail());
+		pstmt.setString(3, user.getPassword());
+		
+		pstmt.executeUpdate();
+	}
+	    
+	    
 	 
 	    /*
 	    public static List<Product> listProduct(Connection conn) throws SQLException {

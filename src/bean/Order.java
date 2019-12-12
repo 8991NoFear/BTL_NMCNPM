@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Order {
     private int orderID;
-    private int userID;
+    private String username;
     private int productID;
     private int quantity;
     private Timestamp dateCreated;
@@ -24,15 +24,15 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public int getUserID() {
-        return userID;
-    }
+    public String getUsername() {
+		return username;
+	}
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public int getProductID() {
+	public int getProductID() {
         return productID;
     }
 
