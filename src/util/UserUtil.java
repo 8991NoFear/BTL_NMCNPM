@@ -11,50 +11,68 @@ import javax.servlet.http.HttpSession;
 import bean.User;
 
 public class UserUtil {
-	// giá trị phải là 1 chuỗi ko có kí tự lạ
+	// cookie <name, value>
+	public static final String NAME_CONNECTION = "NAME_CONNECTION";
+	public static final String NAME_USERNAME = "NAME_USERNAME";
+	public static final String NAME_PASSWORD = "NAME_PASSWORD";
 	
-	public static final String ATT_NAME_CONNECTION = "ATTRIBUTE_FOR_STORING_CONNECTION";
-	public static final String ATT_NAME_USER_KEY = "ATTRIBUTE_FOR_STORING_NAME_OF_USER_IN_COOKIE";
+	// session <key, value>
+	public static final String KEY_LOGINED_USER = "KEY_LOGINED_USER";
 	
-	// Lưu trữ connection vào attribute của request
-	
+	// FOR CONNECTION
 	public static void storeConnection(ServletRequest request, Connection conn) {
-		request.setAttribute(ATT_NAME_CONNECTION, conn);
+		request.setAttribute(NAME_CONNECTION, conn);
 	}
 	
 	public static Connection getStoredConnection(ServletRequest request) {
-		return (Connection) request.getAttribute(ATT_NAME_CONNECTION);
+		return (Connection) request.getAttribute(NAME_CONNECTION);
 	}
 	
-	// Lưu trữ thông tin người dùng đã login vào Session.
-	
-    public static void storeLoginedUser(HttpSession session, User loginedUser) {
-        // Trên JSP có thể truy cập thông qua ${loginedUser}
-    	
-        session.setAttribute("loginedUser", loginedUser);
+	// FOR SESSION
+    public static void storeUserInSession(HttpSession session, User loginedUser) {
+        // Trên JSP có thể truy cập thông qua ${KEY_LOGINED_USER}
+        session.setAttribute(KEY_LOGINED_USER, loginedUser);
     }
  
-    // Lấy thông tin người dùng lưu trữ trong Session
-    
-    public static User getLoginedUser(HttpSession session) {
-        User loginedUser = (User) session.getAttribute("loginedUser");
+    public static User getUserInSession(HttpSession session) {
+        User loginedUser = (User) session.getAttribute(KEY_LOGINED_USER);
         return loginedUser;
     }
 	
-	// Lưu trữ thông tin người dùng vào cookie
-	
-	public static void storeUsernameInCookie(HttpServletResponse response, User user) {
-		Cookie cookie = new Cookie(ATT_NAME_USER_KEY, user.getUsername());
-		cookie.setMaxAge(24*60*60);
-		response.addCookie(cookie);
+	// FOR COOKIE
+	public static void storeUserInCookie(HttpServletResponse response, User user) {
+		Cookie cookieForUsername = new Cookie(NAME_USERNAME, user.getUsername());
+		Cookie cookieForPassword = new Cookie(NAME_PASSWORD, user.getPassword());
+		cookieForUsername.setMaxAge(24*60*60);
+		cookieForPassword.setMaxAge(24*60*60);
+		response.addCookie(cookieForUsername);
+		response.addCookie(cookieForPassword);
 	}
 	
 	public static String getUsernameInCookie(HttpServletRequest request) {
-		Cookie[] cookie = request.getCookies();
+		Cookie cookie = getCookie(request, NAME_USERNAME);
 		if(cookie != null) {
-			for(Cookie ck: cookie) {
-				if(ck.getName().equals(ATT_NAME_USER_KEY)) {
-					return ck.getValue();
+			return cookie.getValue();
+		} else {
+			return null;
+		}
+	}
+	
+	public static String getPasswordInCookie(HttpServletRequest request) {
+		Cookie cookie = getCookie(request, NAME_PASSWORD);
+		if(cookie != null) {
+			return cookie.getValue();
+		} else {
+			return null;
+		}
+	}
+	
+	private static Cookie getCookie(HttpServletRequest request, String name) {
+		Cookie[] arrCookie = request.getCookies();
+		if(arrCookie != null) {
+			for(Cookie cookie: arrCookie) {
+				if(cookie.getName().equals(name)) {
+					return cookie;
 				}
 			}
 		}
@@ -62,12 +80,14 @@ public class UserUtil {
 	}
 	
 	// Xóa cookie của người dùng
-	
-	public static void deleteUserCookie(HttpServletResponse response, User user) {
+	public static void deleteUserCookie(HttpServletRequest request, HttpServletResponse response, User user) {
 		System.out.print("delete user cookie");
-		Cookie cookie = new Cookie(ATT_NAME_USER_KEY, "");
-		cookie.setMaxAge(0);
-		response.addCookie(cookie);
+		Cookie cookieForUsername = getCookie(request, NAME_USERNAME);
+		Cookie cookieForPassword = getCookie(request, NAME_PASSWORD);
+		cookieForUsername.setMaxAge(0);
+		cookieForPassword.setMaxAge(0);
+		response.addCookie(cookieForUsername);
+		response.addCookie(cookieForPassword);
 	}
 	
 }

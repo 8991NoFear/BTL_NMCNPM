@@ -27,7 +27,7 @@ public class UserInfoServlet extends HttpServlet {
         HttpSession session = request.getSession();
  
         // Kiểm tra người dùng đã đăng nhập (login) chưa.
-        User loginedUser = UserUtil.getLoginedUser(session);
+        User loginedUser = UserUtil.getUserInSession(session);
  
         // Nếu chưa đăng nhập (login).
         if (loginedUser == null) {

@@ -31,14 +31,16 @@ public class CookieFilter implements Filter {
 		System.out.println("- Cookie Filter");
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
-		 
-		User userInSession = UserUtil.getLoginedUser(session);
+		
+		// Kiểm tra xem người dùng có trong phiên làm việc hay không, nếu có thì cho đi tiếp
+		User userInSession = UserUtil.getUserInSession(session);
 		if (userInSession != null) {
 			session.setAttribute("COOKIE_CHECKED", "CHECKED");
 			chain.doFilter(request, response);
 			return;
 		}
 		
+		// Trường hợp người dùng mới lần đầu vào web app
 		// Connection đã được tạo trong JDBCFilter.
 		Connection conn = UserUtil.getStoredConnection(request);
 	 
@@ -47,17 +49,16 @@ public class CookieFilter implements Filter {
 		if (checked == null && conn != null) {
 			String userName = UserUtil.getUsernameInCookie(req);
 			try {
-			User user = DBUtil.findUser(conn, userName);
-			UserUtil.storeLoginedUser(session, user);
+				User user = DBUtil.findUser(conn, userName);
+				UserUtil.storeUserInSession(session, user);
 			} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 			}
 		
 		// Đánh dấu đã kiểm tra Cookie.
 			session.setAttribute("COOKIE_CHECKED", "CHECKED");
 		}
-		
-			chain.doFilter(request, response);
+		chain.doFilter(request, response);
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {

@@ -20,10 +20,20 @@ import util.UserUtil;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String NAME_USER = "NAME_USER";
+	private final String NAME_ERROR = "NAME_ERROR";
+	
+	// LOGIN INFO
+	private String username;
+    private String password;
+    private boolean remember;
+    
+    private User user;
+    private boolean hasError;
+    private String error;
        
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     // Hiển thị trang Login.
@@ -44,70 +54,68 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        // Load Parameter from login form
+    	loadParameter(request);
+        
+        // Check user in DB
+        checkUser(request);
+        
+        // Process
+        process(request, response);
+    }
+    
+    private void loadParameter(HttpServletRequest request) {
+    	username = request.getParameter("username");
+        password = request.getParameter("password");
         String rememberMeStr = request.getParameter("rememberMe");
-        boolean remember = (rememberMeStr != null) ? true : false;
- 
-        User user = null;
-        boolean hasError = false;
-        String errorString = null;
+        remember = (rememberMeStr != null) ? true : false;
         
-        // Bắt lỗi
-        if (username == null || password == null ||
-        	username.length() == 0 || password.length() == 0) {
-            hasError = true;
-            errorString = "Required username and password!";
-        } else {
-            Connection conn = UserUtil.getStoredConnection(request);
-            try {
-                // Tìm user trong DB.
-                user = DBUtil.findUser(conn, username, password);
- 
-                if (user == null) {
-                    hasError = true;
-                    errorString = "username or password invalid";
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                hasError = true;
-                errorString = e.getMessage();
+        user = null;
+        hasError = false;
+        error = null;
+    }
+    
+    private void checkUser(HttpServletRequest request) {
+    	// Find user in DB
+        try {
+        	Connection conn = UserUtil.getStoredConnection(request);
+            user = DBUtil.findUser(conn, username, password);
+            if (user == null) {
+            	hasError = true;
+            	error = "username or password invalid";
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            hasError = true;
+            error = e.getMessage();
         }
-        
-        // Trong trường hợp có lỗi,
-        // forward (chuyển hướng) tới /WEB-INF/view/Login.jsp
+    }
+    
+    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	// If has error, forward to /WEB-INF/view/Login.jsp
         if (hasError) {
             user = new User();
             user.setUsername(username);
             user.setPassword(password);
  
-            // Lưu các thông tin vào request attribute trước khi forward.
-            request.setAttribute("errorString", errorString);
-            request.setAttribute("user", user);
+            // save info to request attribute before forward. In JSP can access like ${NAME_ERROR}
+            request.setAttribute(NAME_ERROR, error);
+            request.setAttribute(NAME_USER, user);
  
-            // Forward (Chuyển tiếp) tới trang /WEB-INF/views/login.jsp
+            // Forward to /WEB-INF/views/login.jsp
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/LoginView.jsp");
             dispatcher.forward(request, response);
         }
         
-        // Trường hợp không có lỗi.
-        // Lưu thông tin người dùng vào Session.
-        // Và chuyển hướng sang trang userInfo.
+        // Else, save user info in session and redirect to /userinfo
         else {
+        	// auto login
+        	if (remember) {
+                UserUtil.storeUserInCookie(response, user);
+            }
+        	
             HttpSession session = request.getSession();
-            UserUtil.storeLoginedUser(session, user);
- 
-            // Nếu người dùng chọn tính năng "Remember Me".
-            if (remember) {
-                UserUtil.storeUsernameInCookie(response, user);
-            }
-            // Ngược lại xóa Cookie
-            else {
-                UserUtil.deleteUserCookie(response, user);
-            }
- 
-            // Redirect (Chuyển hướng) sang trang /UserInfo.
+            UserUtil.storeUserInSession(session, user);
             response.sendRedirect(request.getContextPath() + "/userinfo");
         }
     }

@@ -96,11 +96,11 @@ public class RegisterServlet extends HttpServlet {
 				DBUtil.addUser(conn, user);
 				// Nếu người dùng chọn tính năng "Remember Me".
 	            if (remember) {
-	                UserUtil.storeUsernameInCookie(response, user);
+	                UserUtil.storeUserInCookie(response, user);
 	            }
 	            // Ngược lại xóa Cookie
 	            else {
-	                UserUtil.deleteUserCookie(response, user);
+	                UserUtil.deleteUserCookie(request, response, user);
 	            }
 	            
 	            response.sendRedirect(request.getContextPath() + "/login");
