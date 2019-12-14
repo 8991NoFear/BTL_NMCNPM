@@ -18,9 +18,22 @@ import util.UserUtil;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String NAME_USER = "NAME_USER";
+	private final String NAME_ERROR = "NAME_ERROR";
+	
+	// Register form info
+	private String username;
+	private String email;
+	private String password;
+	private String confirmPassword;
+	
+    private boolean hasError;
+    private String error;
        
     public RegisterServlet() {
         super();
+        hasError = false;
+        error = null;
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,90 +45,88 @@ public class RegisterServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String confirmPassword = request.getParameter("confirmPassword");
-		String rememberMeStr = request.getParameter("rememberMe");
-		boolean remember = (rememberMeStr != null) ? true : false;
-		 
-        User user = null;
-        boolean hasError = false;
-        String errorString = null;
-        
-        // Bắt lỗi
-        if (username == null || username.length() == 0 ||
-        	email == null || email.length() == 0 ||
-        	password == null || password.length() == 0 ||
-        	confirmPassword == null || confirmPassword.length() == 0||
-        	!password.equals(confirmPassword)) {
-        	
-        	hasError = true;
-        	errorString = "Required username, email, password, confirm password and password must be the same as confirm password!";
-        	
-        } else {
-        	 Connection conn = UserUtil.getStoredConnection(request);
-        	 try {
-                 // Tìm user trong DB.
-                 user = DBUtil.findUser(conn, username);
-  
-                 if (user != null) {
-                     hasError = true;
-                     errorString = "username is existed, please choose another username!";
-                 }
-             } catch (SQLException e) {
-                 e.printStackTrace();
-                 hasError = true;
-                 errorString = e.getMessage();
-             }
-        }
-        
-        // Trong trường hợp có lỗi,
-        // forward (chuyển hướng) tới /WEB-INF/view/RegisterView.jsp
-        
-        user = new User();
+		// Load parameter from register form
+		loadParameter(request);
+		
+        // Check error
+		checkError(request);
+		
+        // process
+        process(request, response);
+	}
+	
+	private void loadParameter(HttpServletRequest request) {
+		username = request.getParameter("username");
+		email = request.getParameter("email");
+		password = request.getParameter("password");
+		confirmPassword = request.getParameter("confirmPassword");
+	}
+	    
+    private boolean checkUserInDB(HttpServletRequest request) {
+		try {
+			Connection conn = UserUtil.getStoredConnection(request);
+		    User user = DBUtil.findUser(conn, username);
+		    if (user != null) {
+		        error = "username is existed, please choose another username!";
+		        return true;
+		    } else {
+            	error = "";
+            	return false;
+            }
+		} catch (SQLException e) {
+		    error = e.getMessage();
+		    return true;
+		}
+	}
+    
+    private boolean checkConfirmPassword() {
+    	if(!password.equals(confirmPassword)) {
+    		error = "confirm password must be the same as password!";
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
+    private void checkError(HttpServletRequest request) {
+    	boolean userError = checkUserInDB(request);
+    	boolean confirmPasswordError = checkConfirmPassword();
+    	hasError = userError || confirmPasswordError;
+    }
+    
+    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
+        user.setIsAdmin(false);
         if (hasError) {
-            // Lưu các thông tin vào request attribute trước khi forward.
-            request.setAttribute("errorString", errorString);
-            request.setAttribute("user", user);
+            // save info in request attribute before forward
+            request.setAttribute(NAME_ERROR, error);
+            request.setAttribute(NAME_USER, user);
  
-            // Forward (Chuyển tiếp) tới trang /WEB-INF/views/login.jsp
+            // forward to /WEB-INF/views/login.jsp
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/RegisterView.jsp");
             dispatcher.forward(request, response);
         }
         
-        // Trường hợp không có lỗi.
-        // Lưu thông tin người dùng vào DB.
-        // Và chuyển hướng sang trang LoginView
+        // save user info to DB and redirect to /login
         else {
-        	Connection conn = UserUtil.getStoredConnection(request);
         	try {
+        		Connection conn = UserUtil.getStoredConnection(request);
 				DBUtil.addUser(conn, user);
-				// Nếu người dùng chọn tính năng "Remember Me".
-	            if (remember) {
-	                UserUtil.storeUserInCookie(response, user);
-	            }
-	            // Ngược lại xóa Cookie
-	            else {
-	                UserUtil.deleteUserCookie(request, response, user);
-	            }
-	            
 	            response.sendRedirect(request.getContextPath() + "/login");
 			} catch (SQLException e) {
-				e.printStackTrace();
-				// Lưu các thông tin vào request attribute trước khi forward.
-	            request.setAttribute("errorString", errorString);
-	            request.setAttribute("user", user);
+				error = e.getMessage();
+				// save info in request attribute before forward
+	            request.setAttribute(NAME_ERROR, error);
+	            request.setAttribute(NAME_USER, user);
 	 
-	            // Forward (Chuyển tiếp) tới trang /WEB-INF/views/login.jsp
+	            // forward to /WEB-INF/views/login.jsp
 	            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/RegisterView.jsp");
 	            dispatcher.forward(request, response);
 			}
         }
-		
-	}
+    }
 
 }

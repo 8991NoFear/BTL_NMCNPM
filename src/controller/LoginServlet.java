@@ -26,39 +26,40 @@ public class LoginServlet extends HttpServlet {
 	// LOGIN INFO
 	private String username;
     private String password;
-    private boolean remember;
     
     private User user;
-    private boolean hasError;
-    private String error;
+    private boolean hasError;;
+    private String error;;
        
     public LoginServlet() {
         super();
+        user = null;
+        hasError = false;
+        error = null;
     }
 
-    // Hiển thị trang Login.
+    // Displaying login page
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
  
-        // Forward tới trang /WEB-INF/view/LoginView.jsp
-        // (Người dùng không thể truy cập trực tiếp
-        // vào các trang JSP đặt trong thư mục WEB-INF).
+        // Forward to /WEB-INF/view/LoginView.jsp
+        // (because user can not direct access to any jsp pages in WEB-INF directory)
         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/LoginView.jsp");
         dispatcher.forward(request, response);
  
     }
  
-    // Khi người nhập username & password, và nhấn Submit.
-    // Phương thức này sẽ được thực thi.
+    // When user enter username & password and Submit.
+    // this method will execute
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Load Parameter from login form
     	loadParameter(request);
         
-        // Check user in DB
-        checkUser(request);
+        // Check error
+        checkError(request);
         
         // Process
         process(request, response);
@@ -67,37 +68,37 @@ public class LoginServlet extends HttpServlet {
     private void loadParameter(HttpServletRequest request) {
     	username = request.getParameter("username");
         password = request.getParameter("password");
-        String rememberMeStr = request.getParameter("rememberMe");
-        remember = (rememberMeStr != null) ? true : false;
-        
-        user = null;
-        hasError = false;
-        error = null;
+        System.out.println(username + password);
     }
     
-    private void checkUser(HttpServletRequest request) {
+    private boolean checkUserInDB(HttpServletRequest request) {
     	// Find user in DB
         try {
         	Connection conn = UserUtil.getStoredConnection(request);
             user = DBUtil.findUser(conn, username, password);
             if (user == null) {
-            	hasError = true;
-            	error = "username or password invalid";
+            	error = "username or password invalid!";
+            	return true;
+            } else {
+            	return false;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            hasError = true;
             error = e.getMessage();
+            return true;
         }
+    }
+    
+    private void checkError(HttpServletRequest request) {
+    	boolean userError = checkUserInDB(request);
+    	hasError = userError;
     }
     
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	// If has error, forward to /WEB-INF/view/Login.jsp
         if (hasError) {
-            user = new User();
+        	User user = new User();
             user.setUsername(username);
             user.setPassword(password);
- 
             // save info to request attribute before forward. In JSP can access like ${NAME_ERROR}
             request.setAttribute(NAME_ERROR, error);
             request.setAttribute(NAME_USER, user);
@@ -109,11 +110,6 @@ public class LoginServlet extends HttpServlet {
         
         // Else, save user info in session and redirect to /userinfo
         else {
-        	// auto login
-        	if (remember) {
-                UserUtil.storeUserInCookie(response, user);
-            }
-        	
             HttpSession session = request.getSession();
             UserUtil.storeUserInSession(session, user);
             response.sendRedirect(request.getContextPath() + "/userinfo");

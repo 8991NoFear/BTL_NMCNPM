@@ -37,24 +37,22 @@
 				<div class="col-lg-6">
 					<div class="login_form_inner register_form_inner">
 						<h3>Create an account</h3>
-						<p style="color: red;">${errorString}</p>
+						<p style="color: red;">${NAME_ERROR}</p>
 						<form class="row login_form" action="register" method="POST" id="register_form" >
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="username" placeholder="Username" value="${user.username}"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control" id="name" name="username" placeholder="Username" value="${NAME_USER.username}"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'" required>
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="email" name="email" placeholder="Email Address" value= "${user.email}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+								<input type="text" class="form-control" id="email" name="email" placeholder="Email Address" value= "${NAME_USER.email}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" required>
               </div>
               <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="password" name="password" placeholder="Password" value= "${user.password}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								<input type="text" class="form-control" id="password" name="password" placeholder="Password" value= "${NAME_USER.password}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required>
               </div>
               <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
+								<input type="text" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'" required>
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
-									<input type="checkbox" id="f-option2" name="rememberMe">
-									<label for="f-option2">Keep me logged in</label>
 								</div>
 							</div>
 							<div class="col-md-12 form-group">

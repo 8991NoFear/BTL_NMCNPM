@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+<%@ page import = "bean.User" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,11 +59,11 @@
 							</li>
 							<li class="nav-item active submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Pages</a>
+                  aria-expanded="false">User</a>
                 <ul class="dropdown-menu">
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/login">Login</a></li>
+                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a></li>
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/register">Register</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
                 </ul>
               </li>
               <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
@@ -70,7 +72,19 @@
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-search"></i></button></li>
               <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+              <li class="nav-item"><a class="button button-header" href="#">
+              Hello, 
+              <jsp:scriptlet>
+              	User user = (User) session.getAttribute("KEY_LOGINED_USER");
+              	String username;
+              	if(user != null){
+              		username = user.getUsername();
+              	} else {
+              		username = "guest";
+              	}
+              	out.print(username + "!");
+              </jsp:scriptlet>
+              </a></li>
             </ul>
           </div>
         </div>
