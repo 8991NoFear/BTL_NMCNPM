@@ -42,14 +42,14 @@ public class CookieFilter implements Filter {
 		
 		// Trường hợp người dùng mới lần đầu vào web app
 		// Connection đã được tạo trong JDBCFilter.
-		Connection conn = UserUtil.getStoredConnection(request);
+		Connection conn = DBUtil.getStoredConnection(request);
 	 
 		// Cờ (flag) để kiểm tra Cookie.
 		String checked = (String) session.getAttribute("COOKIE_CHECKED");
 		if (checked == null && conn != null) {
 			String userName = UserUtil.getUsernameInCookie(req);
 			try {
-				User user = DBUtil.findUser(conn, userName);
+				User user = UserUtil.findUser(conn, userName);
 				UserUtil.storeUserInSession(session, user);
 			} catch (SQLException e) {
 				e.printStackTrace();

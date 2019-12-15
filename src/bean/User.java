@@ -34,7 +34,7 @@ public class User {
         this.password = password;
     }
 
-    public boolean isIsAdmin() {
+    public boolean isAdmin() {
         return isAdmin;
     }
 

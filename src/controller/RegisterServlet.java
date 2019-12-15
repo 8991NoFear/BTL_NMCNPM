@@ -64,8 +64,8 @@ public class RegisterServlet extends HttpServlet {
 	    
     private boolean checkUserInDB(HttpServletRequest request) {
 		try {
-			Connection conn = UserUtil.getStoredConnection(request);
-		    User user = DBUtil.findUser(conn, username);
+			Connection conn = DBUtil.getStoredConnection(request);
+		    User user = UserUtil.findUser(conn, username);
 		    if (user != null) {
 		        error = "username is existed, please choose another username!";
 		        return true;
@@ -113,8 +113,8 @@ public class RegisterServlet extends HttpServlet {
         // save user info to DB and redirect to /login
         else {
         	try {
-        		Connection conn = UserUtil.getStoredConnection(request);
-				DBUtil.addUser(conn, user);
+        		Connection conn = DBUtil.getStoredConnection(request);
+				UserUtil.insertUser(conn, user);
 	            response.sendRedirect(request.getContextPath() + "/login");
 			} catch (SQLException e) {
 				error = e.getMessage();

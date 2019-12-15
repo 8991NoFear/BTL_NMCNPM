@@ -16,7 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import conn.DBConnUtil;
-import util.UserUtil;
+import util.DBUtil;
 
 public class JDBCFilter implements Filter {
 	private int count = 0;
@@ -87,7 +87,7 @@ public class JDBCFilter implements Filter {
                 conn.setAutoCommit(false);
                 
                 // Lưu trữ đối tượng Connection vào attribute của request.
-                UserUtil.storeConnection(request, conn);
+                DBUtil.storeConnection(request, conn);
  
                 // Cho phép request đi tiếp.
                 // (Đi tới Filter tiếp theo hoặc đi tới mục tiêu).

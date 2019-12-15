@@ -74,8 +74,8 @@ public class LoginServlet extends HttpServlet {
     private boolean checkUserInDB(HttpServletRequest request) {
     	// Find user in DB
         try {
-        	Connection conn = UserUtil.getStoredConnection(request);
-            user = DBUtil.findUser(conn, username, password);
+        	Connection conn = DBUtil.getStoredConnection(request);
+            user = UserUtil.findUser(conn, username, password);
             if (user == null) {
             	error = "username or password invalid!";
             	return true;
@@ -112,7 +112,11 @@ public class LoginServlet extends HttpServlet {
         else {
             HttpSession session = request.getSession();
             UserUtil.storeUserInSession(session, user);
-            response.sendRedirect(request.getContextPath() + "/userinfo");
+            if(user.isAdmin()) {
+            	response.sendRedirect(request.getContextPath() + "/admin");
+            } else {
+            	response.sendRedirect(request.getContextPath() + "/userinfo");
+            }
         }
     }
 

@@ -1,8 +1,11 @@
 package util;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,21 +15,11 @@ import bean.User;
 
 public class UserUtil {
 	// cookie <name, value>
-	public static final String NAME_CONNECTION = "NAME_CONNECTION";
 	public static final String NAME_USERNAME = "NAME_USERNAME";
 	public static final String NAME_PASSWORD = "NAME_PASSWORD";
 	
 	// session <key, value>
 	public static final String KEY_LOGINED_USER = "KEY_LOGINED_USER";
-	
-	// FOR CONNECTION
-	public static void storeConnection(ServletRequest request, Connection conn) {
-		request.setAttribute(NAME_CONNECTION, conn);
-	}
-	
-	public static Connection getStoredConnection(ServletRequest request) {
-		return (Connection) request.getAttribute(NAME_CONNECTION);
-	}
 	
 	// FOR SESSION
     public static void storeUserInSession(HttpSession session, User loginedUser) {
@@ -88,6 +81,71 @@ public class UserUtil {
 		cookieForPassword.setMaxAge(0);
 		response.addCookie(cookieForUsername);
 		response.addCookie(cookieForPassword);
+	}
+	
+	public static User findUser(Connection conn, String username, String password) throws SQLException {
+        String sql = "Select * from [USER] where username = ? and password = ?;";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, username);
+        pstm.setString(2, password);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            User user = new User();
+            user.setUsername(rs.getString("username"));
+            user.setPassword(rs.getString("password"));
+            user.setEmail(rs.getString("email"));
+            user.setIsAdmin(rs.getBoolean("isAdmin"));
+            return user;
+        }
+        return null;
+	}
+	 
+	public static User findUser(Connection conn, String username) throws SQLException {
+		String sql = "Select * from [USER] where username = ?;";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, username);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+		    User user = new User();
+		    user.setUsername(rs.getString("username"));
+		    user.setPassword(rs.getString("password"));
+		    user.setEmail(rs.getString("email"));
+		    user.setIsAdmin(rs.getBoolean("isAdmin"));
+		    return user;
+        }
+        return null;
+	}
+	
+	public static void insertUser(Connection conn, User user) throws SQLException {
+		String sql = "Insert into [USER] values (?, ?, ?, 0)";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, user.getUsername());
+		pstmt.setString(2, user.getEmail());
+		pstmt.setString(3, user.getPassword());
+		pstmt.executeUpdate();
+	}
+	
+	public static void deleteUser(Connection conn, String username) throws SQLException {
+		String sql = "Delete from [USER] where username = ?;";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, username);
+		pstmt.executeUpdate();
+	}
+	
+	public static LinkedList<User> getListUser(Connection conn) throws SQLException{
+		String sql = "Select * from [USER];";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery(sql);
+		LinkedList<User> list = new LinkedList<User>();
+		while(rs.next()) {
+			User user = new User();
+			user.setUsername(rs.getString("username"));
+			user.setPassword(rs.getString("password"));
+			user.setEmail(rs.getString("email"));
+			user.setIsAdmin(rs.getBoolean("isAdmin"));
+			list.add(user);
+		}
+		return list;
 	}
 	
 }
