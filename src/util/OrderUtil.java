@@ -9,20 +9,23 @@ import java.util.LinkedList;
 import bean.Order;
 
 public class OrderUtil {
-	public void insertOrder(Connection conn, Order order) throws SQLException {
-		String sql = "Insert into [ORDER] values (?, ?, ?, ?, ?, ?);";
+	public static void insertOrder(Connection conn, Order order) throws SQLException {
+		String sql = "Insert into [ORDER] (order_id, username, product_id, name, phone, address, quantity, date_created, is_confirm) values (?, ?, ?, ?, ?, ?);";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, order.getOrderID());
-		pstmt.setString(2,  order.getUsername());
-		pstmt.setInt(3,  order.getProductID());
-		pstmt.setInt(4, order.getQuantity());
-		pstmt.setTimestamp(5,  order.getDateCreated());
-		pstmt.setInt(6,  order.getConfirmationNumber());
+		pstmt.setString(2, order.getUsername());
+		pstmt.setInt(3, order.getProductID());
+		pstmt.setString(4, order.getName());
+		pstmt.setInt(5, order.getPhone());
+		pstmt.setString(6, order.getAddress());
+		pstmt.setInt(7, order.getQuantity());
+		pstmt.setTimestamp(8,  order.getDateCreated());
+		pstmt.setBoolean(9,  order.getConfirm());
 		pstmt.executeUpdate();
 	}
 	
-	public Order findOrder(Connection conn, int orderId) throws SQLException {
-		String sql = "Select * from [ORDER] where order_id = ?;";
+	public static Order findOrder(Connection conn, int orderId) throws SQLException {
+		String sql = "Select order_id, username, product_id, [name], phone, [address], quantity, date_created, is_confirm from [ORDER] where order_id = ?;";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()) {
@@ -30,16 +33,19 @@ public class OrderUtil {
 			order.setOrderID(rs.getInt("order_id"));
 			order.setUsername(rs.getString("username"));
 			order.setProductID(rs.getInt("product_id"));
+			order.setName(rs.getString("name"));
+			order.setPhone(rs.getInt("phone"));
+			order.setAddress(rs.getString("address"));
 			order.setQuantity(rs.getInt("quantity"));
 			order.setDateCreated(rs.getTimestamp("date_created"));
-			order.setConfirmationNumber(rs.getInt("confirmation_number"));
+			order.setIsConfirm(rs.getBoolean("is_confirm"));
 			return order;
 		} else {
 			return null;
 		}
 	}
 	
-	public LinkedList<Order> getListOrder(Connection conn) throws SQLException{
+	public static LinkedList<Order> getListOrder(Connection conn) throws SQLException{
 		String sql = "Select * from [ORDER];";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery(sql);
@@ -49,9 +55,12 @@ public class OrderUtil {
 			order.setOrderID(rs.getInt("order_id"));
 			order.setUsername(rs.getString("username"));
 			order.setProductID(rs.getInt("product_id"));
+			order.setName(rs.getString("name"));
+			order.setPhone(rs.getInt("phone"));
+			order.setAddress(rs.getString("address"));
 			order.setQuantity(rs.getInt("quantity"));
 			order.setDateCreated(rs.getTimestamp("date_created"));
-			order.setConfirmationNumber(rs.getInt("confirmation_number"));
+			order.setIsConfirm(rs.getBoolean("is_confirm"));
 			list.add(order);
 		}
 		return list;

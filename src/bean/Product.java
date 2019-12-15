@@ -4,6 +4,7 @@ public class Product {
     private int productID;
     private int categoryID;
     private String name;
+    private int quantity;
     private float price;
     private String description;
     private String image;
@@ -59,5 +60,13 @@ public class Product {
     public void setImage(String image) {
         this.image = image;
     }
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
     
 }

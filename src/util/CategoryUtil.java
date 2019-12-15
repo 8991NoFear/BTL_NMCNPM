@@ -10,7 +10,7 @@ import bean.Category;
 
 public class CategoryUtil {
 	public static void insertCategory(Connection conn, Category category) throws SQLException {
-		String sql = "Insert into CATEGORY values (?, ?, ?);";
+		String sql = "Insert into CATEGORY (category_id, name, image) values (?, ?, ?);";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1,  category.getCategoryID());
 		pstmt.setString(2,  category.getName());
@@ -36,7 +36,7 @@ public class CategoryUtil {
 	}
 	
 	public static LinkedList<Category> getListCategory(Connection conn) throws SQLException {
-		String sql = "Select * from CATEGORY;";
+		String sql = "Select category_id, name, image from CATEGORY;";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		LinkedList<Category> list = new LinkedList<Category>();

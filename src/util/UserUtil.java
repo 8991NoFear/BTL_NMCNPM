@@ -84,7 +84,7 @@ public class UserUtil {
 	}
 	
 	public static User findUser(Connection conn, String username, String password) throws SQLException {
-        String sql = "Select * from [USER] where username = ? and password = ?;";
+        String sql = "Select username, email, password, is_admin from [USER] where username = ? and password = ?;";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, username);
         pstm.setString(2, password);
@@ -94,14 +94,14 @@ public class UserUtil {
             user.setUsername(rs.getString("username"));
             user.setPassword(rs.getString("password"));
             user.setEmail(rs.getString("email"));
-            user.setIsAdmin(rs.getBoolean("isAdmin"));
+            user.setIsAdmin(rs.getBoolean("is_admin"));
             return user;
         }
         return null;
 	}
 	 
 	public static User findUser(Connection conn, String username) throws SQLException {
-		String sql = "Select * from [USER] where username = ?;";
+		String sql = "Select username, email, password, is_admin from [USER] where username = ?;";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, username);
         ResultSet rs = pstmt.executeQuery();
@@ -110,14 +110,14 @@ public class UserUtil {
 		    user.setUsername(rs.getString("username"));
 		    user.setPassword(rs.getString("password"));
 		    user.setEmail(rs.getString("email"));
-		    user.setIsAdmin(rs.getBoolean("isAdmin"));
+		    user.setIsAdmin(rs.getBoolean("is_admin"));
 		    return user;
         }
         return null;
 	}
 	
 	public static void insertUser(Connection conn, User user) throws SQLException {
-		String sql = "Insert into [USER] values (?, ?, ?, 0)";
+		String sql = "Insert into [USER] ( username, email, password, is_admin) values (?, ?, ?, 0)";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, user.getUsername());
 		pstmt.setString(2, user.getEmail());
@@ -133,7 +133,7 @@ public class UserUtil {
 	}
 	
 	public static LinkedList<User> getListUser(Connection conn) throws SQLException{
-		String sql = "Select * from [USER];";
+		String sql = "Select username, email, password, is_admin from [USER];";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery(sql);
 		LinkedList<User> list = new LinkedList<User>();
@@ -142,7 +142,7 @@ public class UserUtil {
 			user.setUsername(rs.getString("username"));
 			user.setPassword(rs.getString("password"));
 			user.setEmail(rs.getString("email"));
-			user.setIsAdmin(rs.getBoolean("isAdmin"));
+			user.setIsAdmin(rs.getBoolean("is_admin"));
 			list.add(user);
 		}
 		return list;

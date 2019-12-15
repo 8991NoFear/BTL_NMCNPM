@@ -5,11 +5,14 @@ import java.util.Date;
 
 public class Order {
     private int orderID;
-    private String username;
     private int productID;
+    private String username;
+    private String name;
+    private int phone;
+    private String address;
     private int quantity;
     private Timestamp dateCreated;
-    private int confirmationNumber;
+    private boolean isConfirm;
     
     public Order(){
         Date date = new Date();
@@ -56,12 +59,36 @@ public class Order {
         this.dateCreated = dateCreated;
     }
 
-    public int getConfirmationNumber() {
-        return confirmationNumber;
+    public boolean getConfirm() {
+        return isConfirm;
     }
 
-    public void setConfirmationNumber(int confirmationNumber) {
-        this.confirmationNumber = confirmationNumber;
+    public void setIsConfirm(boolean isConfirm) {
+        this.isConfirm = isConfirm;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getPhone() {
+		return phone;
+	}
+
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
     
 }
