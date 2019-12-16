@@ -99,13 +99,13 @@ public class RegisterServlet extends HttpServlet {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
-        user.setIsAdmin(false);
+        user.setAdmin(false);
         if (hasError) {
             // save info in request attribute before forward
             request.setAttribute(NAME_ERROR, error);
             request.setAttribute(NAME_USER, user);
  
-            // forward to /WEB-INF/views/login.jsp
+            // forward to /WEB-INF/views/RegisterView.jsp
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/RegisterView.jsp");
             dispatcher.forward(request, response);
         }

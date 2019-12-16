@@ -83,6 +83,13 @@ public class UserUtil {
 		response.addCookie(cookieForPassword);
 	}
 	
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * */
+	
 	public static User findUser(Connection conn, String username, String password) throws SQLException {
         String sql = "Select username, email, password, is_admin from [USER] where username = ? and password = ?;";
         PreparedStatement pstm = conn.prepareStatement(sql);
@@ -94,7 +101,7 @@ public class UserUtil {
             user.setUsername(rs.getString("username"));
             user.setPassword(rs.getString("password"));
             user.setEmail(rs.getString("email"));
-            user.setIsAdmin(rs.getBoolean("is_admin"));
+            user.setAdmin(rs.getBoolean("is_admin"));
             return user;
         }
         return null;
@@ -110,7 +117,7 @@ public class UserUtil {
 		    user.setUsername(rs.getString("username"));
 		    user.setPassword(rs.getString("password"));
 		    user.setEmail(rs.getString("email"));
-		    user.setIsAdmin(rs.getBoolean("is_admin"));
+		    user.setAdmin(rs.getBoolean("is_admin"));
 		    return user;
         }
         return null;
@@ -135,14 +142,14 @@ public class UserUtil {
 	public static LinkedList<User> getListUser(Connection conn) throws SQLException{
 		String sql = "Select username, email, password, is_admin from [USER];";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery(sql);
+		ResultSet rs = pstmt.executeQuery();
 		LinkedList<User> list = new LinkedList<User>();
 		while(rs.next()) {
 			User user = new User();
 			user.setUsername(rs.getString("username"));
 			user.setPassword(rs.getString("password"));
 			user.setEmail(rs.getString("email"));
-			user.setIsAdmin(rs.getBoolean("is_admin"));
+			user.setAdmin(rs.getBoolean("is_admin"));
 			list.add(user);
 		}
 		return list;
