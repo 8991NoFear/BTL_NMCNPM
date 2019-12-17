@@ -56,7 +56,7 @@ h1 {
   width: 256px;
   padding: 20px;
   border: 5px solid #ccc;
-  background-color: #4CAF50;
+  background-color: #0040ff;
 }
 
 img {
@@ -159,7 +159,6 @@ img {
           <th>Password</th>
           <th>Email</th>
           <th>Admin</th>
-          <th>Edit</th>
           <th>Delete</th>
        </tr>
        <c:forEach items = "${NAME_LIST_USER}" var = "user">
@@ -168,9 +167,6 @@ img {
              <td>${user.getPassword()}</td>
              <td>${user.getEmail()}</td>
              <td>${user.isAdmin()}</td>
-             <td>
-                <a href="admin/editUser?username=${user.getUsername()}">Edit</a>
-             </td>
              <td>
                 <a href="admin/deleteUser?username=${user.getUsername()}">Delete</a>
              </td>
@@ -183,7 +179,7 @@ img {
       <div id="Product" class="tabcontent">
 <!-- Giao diện Product -->
         
-<a href="createProduct">Create New Product</a>      
+<a href="admin/createProduct">Create New Product</a>      
 <table border="1" cellpadding="5" cellspacing="1" >
        <tr>
           <th>Product ID</th>
@@ -194,9 +190,6 @@ img {
           <th>Description</th>
           <th>Description Detail</th>
           <th>Image</th>
-          <th>Image1</th>
-          <th>Image2</th>
-          <th>Image3</th>
           <th>Accessory</th>
           <th>Trending</th>
           <th>Edit</th>
@@ -212,10 +205,6 @@ img {
              <td>${user.getDescription()}</td>
              <td>${user.getDescriptionDetail()}</td>
              <td>${user.getImage()}</td>
-             <td>${user.getImage1()}</td>
-             <td>${user.getImage2()}</td>
-             <td>${user.getImage3()}</td>
-             <td>${user.getAccessory()}</td>
              <td>${user.isTrending()}</td>
              <td>
                 <a href="editProduct?productID=${user.getProductID()}">Edit</a>

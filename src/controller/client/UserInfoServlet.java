@@ -1,4 +1,4 @@
-package controller;
+package controller.client;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import bean.User;
 import util.UserUtil;
 
-@WebServlet(urlPatterns = { "/userinfo" })
+@WebServlet(urlPatterns = { "/userInfo" })
 public class UserInfoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
  

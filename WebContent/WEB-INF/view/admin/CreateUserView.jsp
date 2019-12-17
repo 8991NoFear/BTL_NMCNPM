@@ -7,32 +7,32 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>Create New User</h3>
+	<h1>Create New User</h1>
        
-      <p style="color: red;">${ERROR}</p>
+      <p style="color: red;">${NAME_ERROR}</p>
        
       <form method="POST" action="${pageContext.request.contextPath}/admin/createUser">
          <table border="0">
             <tr>
                <td>Username</td>
-               <td><input type="text" name="code" value="" required/></td>
+               <td><input type="text" name="username" value="${NAME_USER.getUsername() }" required/></td>
             </tr>
             <tr>
                <td>Email</td>
-               <td><input type="text" name="name" value="" required/></td>
+               <td><input type="text" name="email" value="${NAME_USER.getEmail() }" required/></td>
             </tr>
             <tr>
                <td>Password</td>
-               <td><input type="text" name="price" value="" required/></td>
+               <td><input type="text" name="password" value="${NAME_USER.getPassword() }" required/></td>
             </tr>
             <tr>
                <td>Confirm Password</td>
-               <td><input type="text" name="price" value="" required/></td>
+               <td><input type="text" name="confirmPassword" value="" required/></td>
             </tr>
             <tr>
                <td colspan="2">                   
                    <input type="submit" value="Submit" />
-                   <a href="productList">Cancel</a>
+                   <a href="${pageContext.request.contextPath}/admin">Cancel</a>
                </td>
             </tr>
          </table>

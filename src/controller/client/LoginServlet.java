@@ -1,4 +1,4 @@
-package controller;
+package controller.client;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -103,8 +103,8 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute(NAME_ERROR, error);
             request.setAttribute(NAME_USER, user);
  
-            // Forward to /WEB-INF/views/login.jsp
-            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/LoginView.jsp");
+            // Forward to /WEB-INF/views/client/login.jsp
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/LoginView.jsp");
             dispatcher.forward(request, response);
         }
         

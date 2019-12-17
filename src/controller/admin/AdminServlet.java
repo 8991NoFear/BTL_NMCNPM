@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import bean.Category;
 import bean.Order;
@@ -61,7 +60,7 @@ public class AdminServlet extends HttpServlet {
 			request.setAttribute(NAME_LIST_NEW_ORDER, listNewOrder);
 			request.setAttribute(NAME_LIST_CATEGORY, listCategory);
 			
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/AdminView.jsp");
+			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/admin/AdminView.jsp");
 			dispatcher.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();

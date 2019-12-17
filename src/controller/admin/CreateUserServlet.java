@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,13 +15,13 @@ import bean.User;
 import util.DBUtil;
 import util.UserUtil;
 
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/admin/createUser")
+public class CreateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String NAME_USER = "NAME_USER";
 	private final String NAME_ERROR = "NAME_ERROR";
 	
-	// Register form info
+	// Create new user form info
 	private String username;
 	private String email;
 	private String password;
@@ -30,18 +30,13 @@ public class RegisterServlet extends HttpServlet {
     private boolean hasError;
     private String error;
        
-    public RegisterServlet() {
+    public CreateUserServlet() {
         super();
-        hasError = false;
-        error = null;
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Forward tới trang /WEB-INF/view/RegisterView.jsp
-        // (Người dùng không thể truy cập trực tiếp
-        // vào các trang JSP đặt trong thư mục WEB-INF).
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/RegisterView.jsp");
-        dispatcher.forward(request, response);
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateUserView.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -106,7 +101,7 @@ public class RegisterServlet extends HttpServlet {
             request.setAttribute(NAME_USER, user);
  
             // forward to /WEB-INF/views/RegisterView.jsp
-            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/RegisterView.jsp");
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateUserView.jsp");
             dispatcher.forward(request, response);
         }
         
@@ -115,7 +110,7 @@ public class RegisterServlet extends HttpServlet {
         	try {
         		Connection conn = DBUtil.getStoredConnection(request);
 				UserUtil.insertUser(conn, user);
-	            response.sendRedirect(request.getContextPath() + "/login");
+	            response.sendRedirect(request.getContextPath() + "/admin");
 			} catch (SQLException e) {
 				error = e.getMessage();
 				// save info in request attribute before forward
@@ -123,7 +118,7 @@ public class RegisterServlet extends HttpServlet {
 	            request.setAttribute(NAME_USER, user);
 	 
 	            // forward to /WEB-INF/views/login.jsp
-	            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/RegisterView.jsp");
+	            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateUserView.jsp");
 	            dispatcher.forward(request, response);
 			}
         }
