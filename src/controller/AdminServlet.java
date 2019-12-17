@@ -48,12 +48,6 @@ public class AdminServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			HttpSession session = request.getSession();
-			User loginedUser = UserUtil.getUserInSession(session);
-			 
-	        // Check user is admin?
-	       
-	        
 			Connection conn = DBUtil.getStoredConnection(request);
 			listUser = UserUtil.getListUser(conn);
 			listProduct = ProductUtil.getListProduct(conn);

@@ -41,7 +41,7 @@ public class UserInfoServlet extends HttpServlet {
         // Nếu người dùng đã login thì forward (chuyển tiếp) tới trang
         // /WEB-INF/views/userInfoView.jsp
         RequestDispatcher dispatcher //
-                = this.getServletContext().getRequestDispatcher("/WEB-INF/view/UserInfoView.jsp");
+                = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/UserInfoView.jsp");
         dispatcher.forward(request, response);
  
     }

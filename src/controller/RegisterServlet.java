@@ -40,7 +40,7 @@ public class RegisterServlet extends HttpServlet {
 		// Forward tới trang /WEB-INF/view/RegisterView.jsp
         // (Người dùng không thể truy cập trực tiếp
         // vào các trang JSP đặt trong thư mục WEB-INF).
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/RegisterView.jsp");
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/RegisterView.jsp");
         dispatcher.forward(request, response);
 	}
 
@@ -106,7 +106,7 @@ public class RegisterServlet extends HttpServlet {
             request.setAttribute(NAME_USER, user);
  
             // forward to /WEB-INF/views/RegisterView.jsp
-            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/RegisterView.jsp");
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/RegisterView.jsp");
             dispatcher.forward(request, response);
         }
         
@@ -123,7 +123,7 @@ public class RegisterServlet extends HttpServlet {
 	            request.setAttribute(NAME_USER, user);
 	 
 	            // forward to /WEB-INF/views/login.jsp
-	            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/RegisterView.jsp");
+	            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/RegisterView.jsp");
 	            dispatcher.forward(request, response);
 			}
         }

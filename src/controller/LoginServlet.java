@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
  
         // Forward to /WEB-INF/view/LoginView.jsp
         // (because user can not direct access to any jsp pages in WEB-INF directory)
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/LoginView.jsp");
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/LoginView.jsp");
         dispatcher.forward(request, response);
  
     }
