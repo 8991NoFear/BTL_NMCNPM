@@ -19,9 +19,9 @@ import bean.Product;
 import util.DBUtil;
 import util.ProductUtil;
 
-@WebServlet("/admin/createProduct")
+@WebServlet("/admin/editProduct")
 @MultipartConfig
-public class CreateProductServlet extends HttpServlet {
+public class EditProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String NAME_ERROR = "NAME_ERROR";
 	private static final String NAME_PRODUCT = "NAME_PRODUCT";
@@ -40,14 +40,22 @@ public class CreateProductServlet extends HttpServlet {
     private String error;
     private Product product;
        
-    public CreateProductServlet() {
+    public EditProductServlet() {
         super();
         product = new Product();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateProductView.jsp");
-		dispatcher.forward(request, response);
+		try {
+			Integer productID = Integer.valueOf(request.getParameter("productID"));
+			Connection conn = DBUtil.getStoredConnection(request);
+			product = ProductUtil.findProduct(conn, productID);
+			request.setAttribute(NAME_PRODUCT, product);
+			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditProductView.jsp");
+			dispatcher.forward(request, response);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,7 +70,7 @@ public class CreateProductServlet extends HttpServlet {
 		if(hasError) {
 			 request.setAttribute(NAME_ERROR, error);
 			 request.setAttribute(NAME_PRODUCT, product);
-			 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateProductView.jsp");
+			 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditProductView.jsp");
 			 dispatcher.forward(request, response);
 		} else {
 			try {
@@ -84,7 +92,7 @@ public class CreateProductServlet extends HttpServlet {
 			        fileSaveDir.mkdir();
 			    }
 			
-			    // PART
+			    /// PART
 			    Part part = request.getPart("image");
 			    String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 			    image = fileName;
@@ -93,7 +101,11 @@ public class CreateProductServlet extends HttpServlet {
 			    // UPLOAD SUCCEDD
 			    if (fileName != null && fileName.length() > 0) {
 			    	Connection conn = DBUtil.getStoredConnection(request);
-				    ProductUtil.insertProduct(conn, product);
+				    if(insertOrUpdate(request)) {
+				    	ProductUtil.insertProduct(conn, product);
+				    } else {
+				    	ProductUtil.updateProduct(conn, productID, product);
+				    }
 			        String filePath = fullSavePath + File.separator + fileName;
 			        part.write(filePath);
 			        response.sendRedirect(request.getContextPath() + "/admin");
@@ -101,16 +113,15 @@ public class CreateProductServlet extends HttpServlet {
 			    	error = "file error!";
 			    	request.setAttribute(NAME_ERROR, error);
 			    	request.setAttribute(NAME_PRODUCT, product);
-			    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateProductView.jsp");
+			    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditProductView.jsp");
 				    dispatcher.forward(request, response);
 			    }
-			    
 			} catch (Exception e) {
 			    e.printStackTrace();
 			    error = e.getMessage();
 			    request.setAttribute(NAME_ERROR, error);
-			    request.setAttribute(NAME_PRODUCT, product);
-			    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateProductView.jsp");
+		    	request.setAttribute(NAME_PRODUCT, product);
+			    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditProductView.jsp");
 			    dispatcher.forward(request, response);
 			}
 		}
@@ -134,16 +145,14 @@ public class CreateProductServlet extends HttpServlet {
 		}
 	}
 	
-	private boolean checkProductInDB(HttpServletRequest request) {
+	private boolean insertOrUpdate(HttpServletRequest request) {
 		try {
 			Connection conn = DBUtil.getStoredConnection(request);
 		    Product product = ProductUtil.findProduct(conn, productID);
 		    if (product != null) {
-		        error = "Product with id you've given is existed!";
-		        return true;
+		        return false;
 		    } else {
-            	error = "";
-            	return false;
+            	return true;
             }
 		} catch (SQLException e) {
 		    error = e.getMessage();
@@ -154,7 +163,7 @@ public class CreateProductServlet extends HttpServlet {
 	
 	private void checkError(HttpServletRequest request) {
 		boolean loadParameterError = loadParameter(request);
-		boolean checkProductInDBError = checkProductInDB(request);
-		hasError = loadParameterError || checkProductInDBError;
+		hasError = loadParameterError;
 	}
+
 }

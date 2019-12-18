@@ -12,21 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import util.DBUtil;
-import util.UserUtil;
+import util.ProductUtil;
 
-@WebServlet("/admin/deleteUser")
-public class DeleteUser extends HttpServlet {
+@WebServlet("/admin/deleteProduct")
+public class DeleteProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public DeleteUser() {
+    public DeleteProductServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String username = request.getParameter("username");
+			Integer productID = Integer.valueOf(request.getParameter("productID"));
 			Connection conn = DBUtil.getStoredConnection(request);
-			UserUtil.deleteUser(conn, username);
+			ProductUtil.deleteProduct(conn, productID);
 			response.sendRedirect(request.getContextPath() + "/admin");
 		} catch (SQLException e) {
 			e.printStackTrace();

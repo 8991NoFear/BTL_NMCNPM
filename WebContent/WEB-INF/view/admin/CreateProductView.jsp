@@ -9,7 +9,7 @@
 <body>
 <div style="padding:5px; color:red;font-style:italic;">${NAME_ERROR}</div>
     <h1>Create New Product</h1>
-    <form method="POST" action="${pageContext.request.contextPath}/admin/createProduct" >
+    <form method="POST" action="${pageContext.request.contextPath}/admin/createProduct" enctype="multipart/form-data">
     	<table border="0">
             <tr>
                <td>Product ID</td>
@@ -34,6 +34,10 @@
             <tr>
                <td>Description</td>
                <td><input type="text" name="description" value="${NAME_PRODUCT.getDescription() }"/></td>
+            </tr>
+            <tr>
+               <td>image</td>
+               <td><input type="file" name="image" required/></td>
             </tr>
             <tr>
                	<input type="checkbox" name="isTrending" value="YES" />

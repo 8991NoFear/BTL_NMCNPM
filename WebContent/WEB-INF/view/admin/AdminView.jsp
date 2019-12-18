@@ -188,29 +188,26 @@ img {
           <th>Quantity</th>
           <th>Price</th>
           <th>Description</th>
-          <th>Description Detail</th>
           <th>Image</th>
-          <th>Accessory</th>
           <th>Trending</th>
           <th>Edit</th>
           <th>Delete</th>
        </tr>
        <c:forEach items = "${NAME_LIST_PRODUCT}" var = "product">
           <tr>
-             <td>${user.getProductID()}</td>
-             <td>${user.getCategoryID()}</td>
-             <td>${user.getName()}</td>
-             <td>${user.getQuantity()}</td>
-             <td>${user.getPrice()}</td>
-             <td>${user.getDescription()}</td>
-             <td>${user.getDescriptionDetail()}</td>
-             <td>${user.getImage()}</td>
-             <td>${user.isTrending()}</td>
+             <td>${product.getProductID()}</td>
+             <td>${product.getCategoryID()}</td>
+             <td>${product.getName()}</td>
+             <td>${product.getQuantity()}</td>
+             <td>${product.getPrice()}</td>
+             <td>${product.getDescription()}</td>
+             <td>${product.getImage()}</td>
+             <td>${product.isTrending()}</td>
              <td>
-                <a href="editProduct?productID=${user.getProductID()}">Edit</a>
+                <a href="admin/editProduct?productID=${product.getProductID()}">Edit</a>
              </td>
              <td>
-                <a href="deleteProduct?productID=${user.getProductId()}">Delete</a>
+                <a href="admin/deleteProduct?productID=${product.getProductID()}">Delete</a>
              </td>
           </tr>
        </c:forEach>

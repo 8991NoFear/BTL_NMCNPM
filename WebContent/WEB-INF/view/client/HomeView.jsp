@@ -3,7 +3,7 @@
 
 <jsp:include page="_header.jsp"></jsp:include>
   <main class="site-main">
-    
+
     <!--================ Hero banner start =================-->
     <section class="hero-banner">
       <div class="container">
