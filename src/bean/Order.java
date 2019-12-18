@@ -59,11 +59,11 @@ public class Order {
         this.dateCreated = dateCreated;
     }
 
-    public boolean getConfirm() {
+    public boolean isConfirm() {
         return isConfirm;
     }
 
-    public void setIsConfirm(boolean isConfirm) {
+    public void setConfirm(boolean isConfirm) {
         this.isConfirm = isConfirm;
     }
 

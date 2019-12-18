@@ -20,7 +20,7 @@ public class OrderUtil {
 		pstmt.setString(6, order.getAddress());
 		pstmt.setInt(7, order.getQuantity());
 		pstmt.setTimestamp(8,  order.getDateCreated());
-		pstmt.setBoolean(9,  order.getConfirm());
+		pstmt.setBoolean(9,  order.isConfirm());
 		pstmt.executeUpdate();
 	}
 	
@@ -38,7 +38,7 @@ public class OrderUtil {
 			order.setAddress(rs.getString("address"));
 			order.setQuantity(rs.getInt("quantity"));
 			order.setDateCreated(rs.getTimestamp("date_created"));
-			order.setIsConfirm(rs.getBoolean("is_confirm"));
+			order.setConfirm(rs.getBoolean("is_confirm"));
 			return order;
 		} else {
 			return null;
@@ -60,7 +60,7 @@ public class OrderUtil {
 			order.setAddress(rs.getString("address"));
 			order.setQuantity(rs.getInt("quantity"));
 			order.setDateCreated(rs.getTimestamp("date_created"));
-			order.setIsConfirm(rs.getBoolean("is_confirm"));
+			order.setConfirm(rs.getBoolean("is_confirm"));
 			list.add(order);
 		}
 		return list;
@@ -81,10 +81,17 @@ public class OrderUtil {
 			order.setAddress(rs.getString("address"));
 			order.setQuantity(rs.getInt("quantity"));
 			order.setDateCreated(rs.getTimestamp("date_created"));
-			order.setIsConfirm(rs.getBoolean("is_confirm"));
+			order.setConfirm(rs.getBoolean("is_confirm"));
 			list.add(order);
 		}
 		return list;
+	}
+	
+	public static void confirmNewOrder(Connection conn, int newOrderID) throws SQLException {
+		String sql = "Update [ORDER] set is_confirm = 1 where order_id = ?;";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, newOrderID);
+		pstmt.executeUpdate();
 	}
 	
 }

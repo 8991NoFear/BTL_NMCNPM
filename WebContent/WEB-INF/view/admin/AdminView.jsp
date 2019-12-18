@@ -138,14 +138,13 @@ img {
         <button class="tablinks btn2" onclick="openCity(event, 'NewOrder')">New Order<i class="fa fa-edit right"></i></button>
         <button class="tablinks btn2" onclick="openCity(event, 'AllOrder')">All Order<i class="fa fa-edit right"></i></button>
       </div>
-      <button class="tablinks btn1" onclick="openCity(event, 'Setting')">Logout<i class="fa fa-undo right"></i></button>
+      <button class="tablinks btn1" onclick="openCity(event, 'Setting')">Exit To Main Page<i class="fa fa-undo right"></i></button>
     </div>
 
     <div class="main">
       <div id="Home" class="tabcontent">
-      
         <!-- Giao diện bắt đầu sau khi đăng nhập admin -->
-        
+        <h1>ADMIN CONSOLE PAGE</h1>
       </div>
       <div id="User" class="tabcontent">
 <!-- Giao diện User -->
@@ -262,7 +261,6 @@ img {
           <th>Quantity</th>
           <th>Time</th>
           <th>Confirm</th>
-          <th>Delete</th>
        </tr>
        <c:forEach items = "${NAME_LIST_NEW_ORDER}" var = "newOrder">
           <tr>
@@ -275,10 +273,7 @@ img {
              <td>${newOrder.getQuantity()}</td>
              <td>${newOrder.getDateCreated()}</td>
              <td>
-                <a href="confirmOrder?OrderID=${newOrder.getOrderID()}">Confirm</a>
-             </td>
-             <td>
-                <a href="deleteOrder?OrderID=${newOrder.getOrderID()}">Delete</a>
+                <a href="admin/confirmNewOrder?orderID=${newOrder.getOrderID()}">Confirm</a>
              </td>
           </tr>
        </c:forEach>
@@ -322,12 +317,6 @@ img {
 
       </div>
   </div>
-</div>
-
-<div class="footer">
-  <p>Được tạo bởi: Trần Tuấn Anh</p>
-  <p>Email: anh.tt172944@sis.hust.edu.vn</p>
-  <p>Điện Thoại: 0969185432</p>
 </div>
 
 <script>
