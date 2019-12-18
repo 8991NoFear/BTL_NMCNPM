@@ -63,7 +63,7 @@ public class ProductUtil {
 	    pstmt.executeUpdate();
 	}
 	
-	public static void updateProduct(Connection conn, int productID, Product product) throws SQLException {
+	public static void updateProduct(Connection conn, int olProductID, Product product) throws SQLException {
 		String sql = "Update PRODUCT set product_id = ?, category_id = ?, name = ?, quantity = ?,  price = ?, description = ?, image = ?, is_trending = ? where product_id = ?;";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 	    pstmt.setInt(1, product.getProductID());
@@ -74,7 +74,7 @@ public class ProductUtil {
 	    pstmt.setString(6, product.getDescription());
 	    pstmt.setString(7, product.getImage());
 	    pstmt.setBoolean(8,product.isTrending());
-	    pstmt.setInt(9, productID);
+	    pstmt.setInt(9, olProductID);
 	    pstmt.executeUpdate();
 	}
 	

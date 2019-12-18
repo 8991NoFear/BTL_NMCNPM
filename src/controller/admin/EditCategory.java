@@ -15,44 +15,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import bean.Product;
+import bean.Category;
+import util.CategoryUtil;
 import util.DBUtil;
-import util.ProductUtil;
 
-@WebServlet("/admin/editProduct")
+@WebServlet("/admin/editCategory")
 @MultipartConfig
-public class EditProductServlet extends HttpServlet {
+public class EditCategory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String NAME_ERROR = "NAME_ERROR";
-	private static final String NAME_PRODUCT = "NAME_PRODUCT";
-	private static final String SAVE_DIRECTORY = "product";
+	private static final String NAME_CATEGORY = "NAME_CATEGORY";
+	private static final String SAVE_DIRECTORY = "category";
 	
-	private Integer productID;
-	private Integer oldProductID;
 	private Integer categoryID;
+	private Integer oldCategoryID;
 	private String name;
-	private Float price;
-	private Integer quantity;
-	private String description;
 	private String image;
-	private Boolean isTrending;
 	
 	private boolean hasError;
-    private String error;
-    private Product product;
-       
-    public EditProductServlet() {
+	private String error;
+	private Category category;
+	
+    public EditCategory() {
         super();
-        product = new Product();
+        category = new Category();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			oldProductID = Integer.valueOf(request.getParameter("productID"));
+			oldCategoryID = Integer.valueOf(request.getParameter("categoryID"));
 			Connection conn = DBUtil.getStoredConnection(request);
-			product = ProductUtil.findProduct(conn, oldProductID);
-			request.setAttribute(NAME_PRODUCT, product);
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditProductView.jsp");
+			category = CategoryUtil.findCategory(conn, oldCategoryID);
+			request.setAttribute(NAME_CATEGORY, category);
+			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditCategoryView.jsp");
 			dispatcher.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,18 +56,13 @@ public class EditProductServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		checkError(request);
-		product.setCategoryID(categoryID);
-		product.setDescription(description);
-		product.setName(name);
-		product.setPrice(price);
-		product.setProductID(productID);
-		product.setQuantity(quantity);
-		product.setTrending(isTrending);
+		category.setCategoryID(categoryID);
+		category.setName(name);
 		if(hasError) {
-			 request.setAttribute(NAME_ERROR, error);
-			 request.setAttribute(NAME_PRODUCT, product);
-			 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditProductView.jsp");
-			 dispatcher.forward(request, response);
+			request.setAttribute(NAME_ERROR, error);
+			request.setAttribute(NAME_CATEGORY, category);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateCategoryView.jsp");
+			dispatcher.forward(request, response);
 		} else {
 			try {
 				// ABSOLUTE PATH
@@ -93,47 +83,43 @@ public class EditProductServlet extends HttpServlet {
 			        fileSaveDir.mkdir();
 			    }
 			
-			    /// PART
+			    // PART
 			    Part part = request.getPart("image");
 			    String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 			    image = fileName;
-			    product.setImage(image);
+			    category.setImage(image);
 			    
 			    // UPLOAD SUCCEDD
 			    if (fileName != null && fileName.length() > 0) {
 			    	Connection conn = DBUtil.getStoredConnection(request);
-			    	ProductUtil.updateProduct(conn, oldProductID, product);
+			    	CategoryUtil.updateCategory(conn, oldCategoryID, category);
 			        String filePath = fullSavePath + File.separator + fileName;
 			        part.write(filePath);
 			        response.sendRedirect(request.getContextPath() + "/admin");
 			    } else {
 			    	error = "file error!";
 			    	request.setAttribute(NAME_ERROR, error);
-			    	request.setAttribute(NAME_PRODUCT, product);
-			    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditProductView.jsp");
+			    	request.setAttribute(NAME_CATEGORY, category);
+			    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateCategoryView.jsp");
 				    dispatcher.forward(request, response);
 			    }
+			    
 			} catch (Exception e) {
 			    e.printStackTrace();
 			    error = e.getMessage();
 			    request.setAttribute(NAME_ERROR, error);
-		    	request.setAttribute(NAME_PRODUCT, product);
-			    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/EditProductView.jsp");
+			    request.setAttribute(NAME_CATEGORY, category);
+			    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/view/admin/CreateCategoryView.jsp");
 			    dispatcher.forward(request, response);
 			}
 		}
-         
+		
 	}
 	
 	private boolean loadParameter(HttpServletRequest request) {
 		try {
-			productID = Integer.valueOf(request.getParameter("productID"));
 			categoryID = Integer.valueOf(request.getParameter("categoryID"));
 			name = request.getParameter("name");
-			price = Float.valueOf(request.getParameter("price"));
-			quantity = Integer.valueOf(request.getParameter("quantity"));
-			description = request.getParameter("description");
-			isTrending = (request.getParameter("isTrending") != null) ? true : false;
 			return false;
 		} catch (NumberFormatException ex) {
 			error = ex.getMessage();

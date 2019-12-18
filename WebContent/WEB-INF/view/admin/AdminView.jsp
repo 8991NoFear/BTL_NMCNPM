@@ -219,7 +219,7 @@ img {
 <!-- Giao diện Category -->
 
 
-<a href="createCategory">Create New Category</a>
+<a href="admin/createCategory">Create New Category</a>
 <table border="1" cellpadding="5" cellspacing="1" >
        <tr>
           <th>Category ID</th>
@@ -230,15 +230,14 @@ img {
        </tr>
        <c:forEach items = "${NAME_LIST_CATEGORY}" var = "category">
           <tr>
-             <td>${newOrder.getCategoryID()}</td>
-             <td>${newOrder.getName()}</td>
-             <td>${newOrder.getImage()}</td>
-             <td>${newOrder.getName()}</td>
+             <td>${category.getCategoryID()}</td>
+             <td>${category.getName()}</td>
+             <td>${category.getImage()}</td>
              <td>
-                <a href="editCategory?CategoryID=${categoryry.getCategoryID()}">Edit</a>
+                <a href="admin/editCategory?categoryID=${category.getCategoryID()}">Edit</a>
              </td>
              <td>
-                <a href="deleteCategory?CategoryID=${category.getCategoryID()}">Delete</a>
+                <a href="admin/deleteCategory?categoryID=${category.getCategoryID()}">Delete</a>
              </td>
           </tr>
        </c:forEach>
