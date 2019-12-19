@@ -22,12 +22,25 @@ public class Cart {
 	public int getTotalMoney() {
 		int totalMoney = 0;
 		for(Product product: listProduct) {
-			totalMoney += product.getPrice();
+			totalMoney += product.getPrice()*product.getQuantity();
 		}
 		return totalMoney;
 	}
 	
 	public int getAmountProduct() {
-		return listProduct.size();
+		int amount = 0;
+		for(Product product: listProduct) {
+			amount += product.getQuantity();
+		}
+		return amount;
+	}
+	
+	public Product findProduct(int productID) {
+		for(Product product: listProduct) {
+			if(product.getProductID() == productID) {
+				return product;
+			}
+		}
+		return null;
 	}
 }

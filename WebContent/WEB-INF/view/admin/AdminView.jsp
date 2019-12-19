@@ -132,7 +132,7 @@ th {
         <button class="tablinks btn2" onclick="openCity(event, 'NewOrder')">New Order<i class="fa fa-edit right"></i></button>
         <button class="tablinks btn2" onclick="openCity(event, 'AllOrder')">All Order<i class="fa fa-edit right"></i></button>
       </div>
-      <button class="tablinks btn1" onclick="openCity(event, 'Setting')">Exit To Main Page<i class="fa fa-undo right"></i></button>
+      <button class="tablinks btn1" onclick="location.href='${pageContext.request.contextPath}/home'" type="button">Exit To Main Page<i class="fa fa-undo right"></i></button>
     </div>
 
     <div class="main">

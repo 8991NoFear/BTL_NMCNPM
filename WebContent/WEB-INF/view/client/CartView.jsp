@@ -32,6 +32,7 @@
                           <tr>
                               <th scope="col" align="center">Product</th>
                               <th scope="col" align="center">Price</th>
+                              <th scope="col" align="center">Quantity</th>
                               <th scope="col" align="center">Delete</th>
                           </tr>
                       </thead>
@@ -53,6 +54,9 @@
 		                                  <h5>${product.getPrice() }</h5>
 		                              </td>
 		                              <td>
+		                                  <h5>${product.getQuantity() }</h5>
+		                              </td>
+		                              <td>
 			                              <div class="checkout_btn_inner d-flex align-items-center">
 				                              	<a class="gray_btn" href="${pageContext.request.contextPath}/deleteProduct?index=<%=index %>">Delete</a>
 				                              	<%index++; %>
@@ -64,6 +68,8 @@
                           <tr>
                           	  <td>
                           	  </td>
+                          	  <td>
+                          	  </td>
                               <td>
                                   <h5>Total: </h5>
                               </td>
@@ -72,6 +78,8 @@
                               </td>
 	                      </tr>
                           <tr class="out_button_area">
+                          	  <td>
+                          	  </td>
                               <td>
                               </td>
                               <td>

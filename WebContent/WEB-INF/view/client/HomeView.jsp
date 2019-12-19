@@ -33,7 +33,7 @@
         <c:forEach items = "${NAME_LIST_CATEGORY }" var = "category">
         	<div class="hero-carousel__slide">
 	          <img src="img/product/${category.getImage() }" alt="" class="img-fluid">
-	          <a href="#" class="hero-carousel__slideOverlay">
+	          <a href="${pageContext.request.contextPath}/categoryProduct?categoryID=${category.getCategoryID()}" class="hero-carousel__slideOverlay">
 	            <h3>${category.getName() }</h3>
 	            <p>Category Item</p>
 	          </a>
@@ -63,7 +63,7 @@
 							</ul>
 						</div>
 						<div class="card-body">
-							<h4 class="card-product__title"><a href="single-product.html">${trendingProduct.getName() }</a></h4>
+							<h4 class="card-product__title"><a href="${pageContext.request.contextPath}/product?productID=${trendingProduct.getProductID()}">${trendingProduct.getName() }</a></h4>
 							<p class="card-product__price">$${trendingProduct.getPrice() }</p>
 						</div>
 					</div>
@@ -94,7 +94,7 @@
 							</ul>
 						</div>
 						<div class="card-body">
-							<h4 class="card-product__title"><a href="single-product.html">${product.getName() }</a></h4>
+							<h4 class="card-product__title"><a href="${pageContext.request.contextPath}/product?productID=${product.getProductID()}">${product.getName() }</a></h4>
 							<p class="card-product__price">$${product.getPrice() }</p>
 						</div>
 					</div>

@@ -42,7 +42,13 @@ public class AddToCartServlet extends HttpServlet {
 				Integer productID = Integer.valueOf(request.getParameter("productID"));
 				Connection conn = DBUtil.getStoredConnection(request);
 				Product product = ProductUtil.findProduct(conn, productID);
-				cart.getListProduct().add(product);
+				Product productInCart = cart.findProduct(productID);
+				if(productInCart == null) {
+					product.setQuantity(1);
+					cart.getListProduct().add(product);
+				} else {
+					productInCart.setQuantity(productInCart.getQuantity() + 1);
+				}
 				session.setAttribute(NAME_CART, cart);
 				response.sendRedirect(request.getContextPath() + "/home");
 			} catch (NumberFormatException ex) {

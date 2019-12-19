@@ -35,14 +35,14 @@ public class UserInfoServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        // Lưu thông tin vào request attribute trước khi forward (chuyển tiếp).
-        request.setAttribute("user", loginedUser);
- 
-        // Nếu người dùng đã login thì forward (chuyển tiếp) tới trang
-        // /WEB-INF/views/userInfoView.jsp
-        RequestDispatcher dispatcher //
-                = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/UserInfoView.jsp");
-        dispatcher.forward(request, response);
+        
+        if(!loginedUser.isAdmin()) {
+        	request.setAttribute("user", loginedUser);
+        	RequestDispatcher dispatcher  = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/UserInfoView.jsp");
+        	dispatcher.forward(request, response);
+        } else {
+        	response.sendRedirect(request.getContextPath() + "/admin");
+        }
  
     }
  

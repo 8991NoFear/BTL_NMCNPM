@@ -42,10 +42,8 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Shop</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/home">Shop Category</a></li>
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/home">All Product</a></li>
                   <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/home">Confirmation</a></li>
-                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/home">Shopping Cart</a></li>
+                  <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/cart">Shopping Cart</a></li>
                 </ul>
 				</li>
       

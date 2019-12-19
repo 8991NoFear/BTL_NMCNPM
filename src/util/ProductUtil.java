@@ -49,6 +49,27 @@ public class ProductUtil {
       return list;
 	}
 	
+	public static LinkedList<Product> getListCategoryProduct(Connection conn, int categoryID) throws SQLException{
+		String sql = "Select product_id, category_id, name, quantity, price, description, image, is_trending from PRODUCT where category_id = ?;";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, categoryID);
+		ResultSet rs = pstmt.executeQuery();
+		LinkedList<Product> list = new LinkedList<Product>();
+		while (rs.next()) {
+	    	Product product = new Product();
+	    	product.setProductID(rs.getInt("product_id"));
+	    	product.setCategoryID(rs.getInt("category_id"));
+	    	product.setName(rs.getString("name"));
+	    	product.setQuantity(rs.getInt("quantity"));
+	    	product.setPrice(rs.getFloat("price"));
+	    	product.setDescription(rs.getString("description"));
+	    	product.setImage(rs.getString("image"));
+	    	product.setTrending(rs.getBoolean("is_trending"));
+	    	list.add(product);
+      }
+      return list;
+	}
+	
 	public static void insertProduct(Connection conn, Product product) throws SQLException {
 		String sql = "Insert into PRODUCT (product_id, category_id, name, quantity, price, description, image, is_trending) values (?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -76,6 +97,14 @@ public class ProductUtil {
 	    pstmt.setBoolean(8,product.isTrending());
 	    pstmt.setInt(9, olProductID);
 	    pstmt.executeUpdate();
+	}
+	
+	public static void decreQuaPro(Connection conn, Product product) throws SQLException {
+		String sql = "Update PRODUCT set quantity = ? where product_id = ?;";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, product.getQuantity());
+		pstmt.setInt(2, product.getProductID());
+		pstmt.executeUpdate();
 	}
 	
 	public static void deleteProduct(Connection conn, int productID) throws SQLException {

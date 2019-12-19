@@ -10,17 +10,15 @@ import bean.Order;
 
 public class OrderUtil {
 	public static void insertOrder(Connection conn, Order order) throws SQLException {
-		String sql = "Insert into [ORDER] (order_id, username, product_id, name, phone, address, quantity, date_created, is_confirm) values (?, ?, ?, ?, ?, ?);";
+		String sql = "Insert into [ORDER] (username, product_id, name, phone, address, quantity, date_created, is_confirm) values (?, ?, ?, ?, ?, ?, ?, 0);";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, order.getOrderID());
-		pstmt.setString(2, order.getUsername());
-		pstmt.setInt(3, order.getProductID());
-		pstmt.setString(4, order.getName());
-		pstmt.setInt(5, order.getPhone());
-		pstmt.setString(6, order.getAddress());
-		pstmt.setInt(7, order.getQuantity());
-		pstmt.setTimestamp(8,  order.getDateCreated());
-		pstmt.setBoolean(9,  order.isConfirm());
+		pstmt.setString(1, order.getUsername());
+		pstmt.setInt(2, order.getProductID());
+		pstmt.setString(3, order.getName());
+		pstmt.setInt(4, order.getPhone());
+		pstmt.setString(5, order.getAddress());
+		pstmt.setInt(6, order.getQuantity());
+		pstmt.setTimestamp(7,  order.getDateCreated());
 		pstmt.executeUpdate();
 	}
 	

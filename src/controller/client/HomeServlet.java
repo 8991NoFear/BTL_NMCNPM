@@ -46,15 +46,6 @@ public class HomeServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-//		if(listCategory == null || listTrendingProduct == null || listAllProduct == null) {
-//			listCategory = CategoryUtil.getListCategory(conn);
-//			listTrendingProduct = ProductUtil.getListTrendingProduct(conn);
-//	    	listAllProduct = ProductUtil.getListProduct(conn);
-//	    	request.setAttribute(NAME_LIST_CATEGORY, listCategory);
-//	    	request.setAttribute(NAME_LIST_TRENDING_PRODUCT, listTrendingProduct);
-//	    	request.setAttribute(NAME_LIST_ALL_PRODUCT, listAllProduct);
-//		}
-		
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/view/client/HomeView.jsp");
 		dispatcher.forward(request, response);
 	}

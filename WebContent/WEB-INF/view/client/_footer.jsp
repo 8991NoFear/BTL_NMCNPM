@@ -12,9 +12,7 @@
 							<ul class="list sm-head">
 								<li>Anh</li>
 								<li>Bac</li>
-								<li>Binh</li>
-								<li>Bunthoeurn</li>
-								<li>Son</li>
+								<li>Binh (captain)</li>
 							</ul>
 						</div>
 					</div>
@@ -25,8 +23,6 @@
 								<li>Tran Tuan</li>
 								<li>Pham Van</li>
 								<li>Le Dinh</li>
-								<li>Yorn</li>
-								<li>Nguyen Van</li>
 							</ul>
 						</div>
 					</div>
@@ -37,8 +33,6 @@
 								<li>20172944</li>
 								<li>20172964</li>
 								<li>20172971</li>
-								<li>20170287</li>
-								<li>20173342</li>
 							</ul>
 						</div>
 					</div>
@@ -49,8 +43,6 @@
 								<li>anh.tt172944@sis.hust.edu.vn</li>
 								<li>bac.pv172964@sis.hust.edu.vn</li>
 								<li>binh.ld172971@sis.hust.edu.vn</li>
-								<li>bunthoeurnyorn89@gmail.com</li>
-								<li>son.nv173342@sis.hust.edu.vn</li>
 							</ul>
 						</div>
 					</div>
