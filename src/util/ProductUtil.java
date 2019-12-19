@@ -30,7 +30,7 @@ public class ProductUtil {
 	}
 	
 	public static LinkedList<Product> getListTrendingProduct(Connection conn) throws SQLException {
-		String sql = "Select product_id, category_id, name, quantity, price, description, description_detail, image, image1, image2, image3, accessory, is_trending from PRODUCT where is_trending = 1;";
+		String sql = "Select product_id, category_id, name, quantity, price, description, image, is_trending from PRODUCT where is_trending = 1;";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		LinkedList<Product> list = new LinkedList<Product>();

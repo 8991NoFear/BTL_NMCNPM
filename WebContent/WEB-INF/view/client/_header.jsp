@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
+
 <%@ page import = "bean.User" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Aroma Shop - Checkout</title>
+  <title>Aroma Shop</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
 
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
@@ -63,14 +63,14 @@
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">0</span></button> </li>
               <li class="nav-item"><a class="button button-header" href="${pageContext.request.contextPath}/userInfo">
-              Hello, 
+              Xin Chào, 
               <jsp:scriptlet>
               	User user = (User) session.getAttribute("KEY_LOGINED_USER");
               	String username;
               	if(user != null){
               		username = user.getUsername();
               	} else {
-              		username = "guest";
+              		username = "Khách Hàng";
               	}
               	out.print(username + "!");
               </jsp:scriptlet>

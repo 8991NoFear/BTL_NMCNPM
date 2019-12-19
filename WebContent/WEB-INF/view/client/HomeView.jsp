@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="bean.Category" %>
 <jsp:include page="_header.jsp"></jsp:include>
   <main class="site-main">
 
@@ -10,7 +11,7 @@
         <div class="row no-gutters align-items-center pt-60px">
           <div class="col-5 d-none d-sm-block">
             <div class="hero-banner__img">
-              <img class="img-fluid" src="img/home/hero-banner.png" alt="">
+              <img class="img-fluid" src="img/hero-banner.png" alt="">
             </div>
           </div>
           <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
@@ -29,180 +30,80 @@
     <!--================ Hero Carousel start =================-->
     <section class="section-margin mt-0">
       <div class="owl-carousel owl-theme hero-carousel">
-        <div class="hero-carousel__slide">
-          <img src="img/home/hero-slide1.png" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
-          </a>
-        </div>
-        <div class="hero-carousel__slide">
-          <img src="img/home/hero-slide2.png" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
-          </a>
-        </div>
-        <div class="hero-carousel__slide">
-          <img src="img/home/hero-slide3.png" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
-          </a>
-        </div>
+        <c:forEach items = "${NAME_LIST_CATEGORY }" var = "category">
+        	<div class="hero-carousel__slide">
+	          <img src="img/product/${category.getImage() }" alt="" class="img-fluid">
+	          <a href="#" class="hero-carousel__slideOverlay">
+	            <h3>${category.getName() }</h3>
+	            <p>Category Item</p>
+	          </a>
+        	</div>
+        </c:forEach>
       </div>
     </section>
     <!--================ Hero Carousel end =================-->
 
     <!-- ================ trending product section start ================= -->  
     <section class="section-margin calc-60px">
-      <div class="container">
-        <div class="section-intro pb-60px">
-          <p>Popular Item in the market</p>
-          <h2>Trending <span class="section-intro__style">Product</span></h2>
-        </div>
-        <div class="row">
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="card text-center card-product">
-              <div class="card-product__img">
-                <img class="card-img" src="img/product/product1.png" alt="">
-                <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
-                  <li><button><i class="ti-shopping-cart"></i></button></li>
-                  <li><button><i class="ti-heart"></i></button></li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <p>Accessories</p>
-                <h4 class="card-product__title"><a href="single-product.html">Quartz Belt Watch</a></h4>
-                <p class="card-product__price">$150.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="card text-center card-product">
-              <div class="card-product__img">
-                <img class="card-img" src="img/product/product2.png" alt="">
-                <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
-                  <li><button><i class="ti-shopping-cart"></i></button></li>
-                  <li><button><i class="ti-heart"></i></button></li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <p>Beauty</p>
-                <h4 class="card-product__title"><a href="single-product.html">Women Freshwash</a></h4>
-                <p class="card-product__price">$150.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="card text-center card-product">
-              <div class="card-product__img">
-                <img class="card-img" src="img/product/product3.png" alt="">
-                <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
-                  <li><button><i class="ti-shopping-cart"></i></button></li>
-                  <li><button><i class="ti-heart"></i></button></li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <p>Decor</p>
-                <h4 class="card-product__title"><a href="single-product.html">Room Flash Light</a></h4>
-                <p class="card-product__price">$150.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="card text-center card-product">
-              <div class="card-product__img">
-                <img class="card-img" src="img/product/product4.png" alt="">
-                <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
-                  <li><button><i class="ti-shopping-cart"></i></button></li>
-                  <li><button><i class="ti-heart"></i></button></li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <p>Decor</p>
-                <h4 class="card-product__title"><a href="single-product.html">Room Flash Light</a></h4>
-                <p class="card-product__price">$150.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="card text-center card-product">
-              <div class="card-product__img">
-                <img class="card-img" src="img/product/product5.png" alt="">
-                <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
-                  <li><button><i class="ti-shopping-cart"></i></button></li>
-                  <li><button><i class="ti-heart"></i></button></li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <p>Accessories</p>
-                <h4 class="card-product__title"><a href="single-product.html">Man Office Bag</a></h4>
-                <p class="card-product__price">$150.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="card text-center card-product">
-              <div class="card-product__img">
-                <img class="card-img" src="img/product/product6.png" alt="">
-                <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
-                  <li><button><i class="ti-shopping-cart"></i></button></li>
-                  <li><button><i class="ti-heart"></i></button></li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <p>Kids Toy</p>
-                <h4 class="card-product__title"><a href="single-product.html">Charging Car</a></h4>
-                <p class="card-product__price">$150.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="card text-center card-product">
-              <div class="card-product__img">
-                <img class="card-img" src="img/product/product7.png" alt="">
-                <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
-                  <li><button><i class="ti-shopping-cart"></i></button></li>
-                  <li><button><i class="ti-heart"></i></button></li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <p>Accessories</p>
-                <h4 class="card-product__title"><a href="single-product.html">Blutooth Speaker</a></h4>
-                <p class="card-product__price">$150.00</p>
-              </div> 
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div class="card text-center card-product">
-              <div class="card-product__img">
-                <img class="card-img" src="img/product/product8.png" alt="">
-                <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
-                  <li><button><i class="ti-shopping-cart"></i></button></li>
-                  <li><button><i class="ti-heart"></i></button></li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <p>Kids Toy</p>
-                <h4 class="card-product__title"><a href="#">Charging Car</a></h4>
-                <p class="card-product__price">$150.00</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+		<div class="container">
+			<div class="section-intro pb-60px">
+			  <p>Popular Item in the market</p>
+			  <h2>Trending <span class="section-intro__style">Product</span></h2>
+			</div>
+			<div class="row">
+				<c:forEach items = "${NAME_LIST_TRENDING_PRODUCT }" var = "trendingProduct" >
+					<div class="col-md-6 col-lg-4 col-xl-3">
+					<div class="card text-center card-product">
+						<div class="card-product__img">
+							<img class="card-img" src="img/product/${trendingProduct.getImage() }" alt="">
+							<ul class="card-product__imgOverlay">
+							  <li><button onclick="location.href='${pageContext.request.contextPath}/product?productID=${trendingProduct.getProductID()}'" type="button"><i class="ti-search"></i></button></li>
+							  <li><button><i class="ti-shopping-cart"></i></button></li>
+							  <li><button><i class="ti-heart"></i></button></li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<h4 class="card-product__title"><a href="single-product.html">${trendingProduct.getName() }</a></h4>
+							<p class="card-product__price">$${trendingProduct.getPrice() }</p>
+						</div>
+					</div>
+				</div>
+				</c:forEach>
+			</div>
+		 </div>
     </section>
     <!-- ================ trending product section end ================= -->  
 
+	<!-- ================ all product section start ================= --> 
+	<section class="section-margin calc-60px">
+		<div class="container">
+			<div class="section-intro pb-60px">
+			  <p>All Product in the market</p>
+			  <h2>All <span class="section-intro__style">Product</span></h2>
+			</div>
+			<div class="row">
+				<c:forEach items = "${NAME_LIST_ALL_PRODUCT }" var = "product" >
+					<div class="col-md-6 col-lg-4 col-xl-3">
+					<div class="card text-center card-product">
+						<div class="card-product__img">
+							<img class="card-img" src="img/product/${product.getImage() }" alt="">
+							<ul class="card-product__imgOverlay">
+							  <li><button onclick="location.href='${pageContext.request.contextPath}/product?productID=${product.getProductID()}'" type="button"><i class="ti-search"></i></button></li>
+							  <li><button><i class="ti-shopping-cart"></i></button></li>
+							  <li><button><i class="ti-heart"></i></button></li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<h4 class="card-product__title"><a href="single-product.html">${product.getName() }</a></h4>
+							<p class="card-product__price">$${product.getPrice() }</p>
+						</div>
+					</div>
+				</div>
+				</c:forEach>
+			</div>
+		 </div>
+    </section>
+	<!-- ================ all product section end ================= -->
   </main>
 
 
