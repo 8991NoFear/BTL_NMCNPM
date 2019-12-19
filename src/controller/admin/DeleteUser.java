@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +17,8 @@ import util.UserUtil;
 @WebServlet("/admin/deleteUser")
 public class DeleteUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private final String NAME_ERROR = "NAME_ERROR";
+	
     public DeleteUser() {
         super();
     }
@@ -24,11 +26,21 @@ public class DeleteUser extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String username = request.getParameter("username");
-			Connection conn = DBUtil.getStoredConnection(request);
-			UserUtil.deleteUser(conn, username);
-			response.sendRedirect(request.getContextPath() + "/admin");
+			if(!username.equals("admin")) {
+				Connection conn = DBUtil.getStoredConnection(request);
+				UserUtil.deleteUser(conn, username);
+				response.sendRedirect(request.getContextPath() + "/admin");
+			} else {
+				request.setAttribute(NAME_ERROR, "Can not delete account for admin!");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/admin/ErrorPage.jsp");
+				dispatcher.forward(request, response);
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			request.setAttribute(NAME_ERROR, e.getMessage());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/admin/ErrorPage.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 

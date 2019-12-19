@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 * {
   box-sizing: border-box;
@@ -17,31 +17,20 @@ body {
   margin: 0;
   font-family: tohoma;}
 
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #ccc; 
-}
- 
-::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-
 html, body {
   margin: 0;
   height: 100%
 }
 
-h1 {
+h1, h1 a {
   text-align: center;
-  font-size: 20px;
-  color: orange;
+  font-size: 30px;
+  color: white;
+}
+
+a{
+  text-decoration: none;
+  color: black;
 }
 
 .row {  
@@ -50,17 +39,20 @@ h1 {
   height: 100%;
 }
 
-.sidenav{
+.sidenav {
   margin-top: 0px;
   height: 100%;
-  width: 256px;
+  width: 20%;
   padding: 20px;
   border: 5px solid #ccc;
   background-color: #0040ff;
 }
 
-img {
-  width: 100%;
+.main{
+  background-color: red;
+  overflow-y: auto;
+  flex: 80%;
+  padding: 20px;
 }
 
 .btn1, .btn2 {
@@ -105,25 +97,27 @@ img {
   float: right;
 }
 
-.main{ 
-  margin-top: 20px;
-  flex: 75%;
-  padding: 20px;
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: auto;
 }
 
-.footer {
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  padding: 10px;
-  min-height: 100px;
-  background-color: #555;
-  margin-top: 0px;
-  color: #66ff66;
-  text-align: center;
-  display: block;
-  clear: left;
+th, td {
+  text-align: left;
+  padding: 8px;
+  border-left: 1px solid #ccc;
 }
+
+tr:nth-child(even){
+  background-color: #f2f2f2
+  }
+
+th {
+  background-color: #333;
+  color: white;
+}
+
 </style>
 </head>
 <body>
@@ -151,8 +145,8 @@ img {
 		
 		
 		
-<a href="admin/createUser" method = "GET">Create New User</a>		
-<table border="1" cellpadding="5" cellspacing="1" >
+<h1><a href="admin/createUser" method = "GET">Create New User</a></h1>	
+<table>
        <tr>
           <th>Username</th>
           <th>Password</th>
@@ -167,7 +161,7 @@ img {
              <td>${user.getEmail()}</td>
              <td>${user.isAdmin()}</td>
              <td>
-                <a href="admin/deleteUser?username=${user.getUsername()}">Delete</a>
+                <a href="admin/deleteUser?username=${user.getUsername()}">Delete <i class="fa fa-trash"></i></a>
              </td>
           </tr>
        </c:forEach>
@@ -178,8 +172,8 @@ img {
       <div id="Product" class="tabcontent">
 <!-- Giao diện Product -->
         
-<a href="admin/createProduct">Create New Product</a>      
-<table border="1" cellpadding="5" cellspacing="1" >
+<h1><a href="admin/createProduct">Create New Product</a></h1>     
+<table>
        <tr>
           <th>Product ID</th>
           <th>Category ID</th>
@@ -198,15 +192,15 @@ img {
              <td>${product.getCategoryID()}</td>
              <td>${product.getName()}</td>
              <td>${product.getQuantity()}</td>
-             <td>${product.getPrice()}</td>
+             <td>${product.getPrice()}</td> 
              <td>${product.getDescription()}</td>
              <td>${product.getImage()}</td>
              <td>${product.isTrending()}</td>
              <td>
-                <a href="admin/editProduct?productID=${product.getProductID()}">Edit</a>
+                <a href="admin/editProduct?productID=${product.getProductID()}" style="display: inline;">Edit <i class="fa fa-edit"></i></a>
              </td>
              <td>
-                <a href="admin/deleteProduct?productID=${product.getProductID()}">Delete</a>
+                <a href="admin/deleteProduct?productID=${product.getProductID()}">Delete <i class="fa fa-trash"></i></a>
              </td>
           </tr>
        </c:forEach>
@@ -218,8 +212,8 @@ img {
 <!-- Giao diện Category -->
 
 
-<a href="admin/createCategory">Create New Category</a>
-<table border="1" cellpadding="5" cellspacing="1" >
+<h1><a href="admin/createCategory">Create New Category</a></h1>
+<table>
        <tr>
           <th>Category ID</th>
           <th>Name</th>
@@ -233,10 +227,10 @@ img {
              <td>${category.getName()}</td>
              <td>${category.getImage()}</td>
              <td>
-                <a href="admin/editCategory?categoryID=${category.getCategoryID()}">Edit</a>
+                <a href="admin/editCategory?categoryID=${category.getCategoryID()}">Edit <i class="fa fa-edit"></i></a>
              </td>
              <td>
-                <a href="admin/deleteCategory?categoryID=${category.getCategoryID()}">Delete</a>
+                <a href="admin/deleteCategory?categoryID=${category.getCategoryID()}">Delete <i class="fa fa-trash"></i></a>
              </td>
           </tr>
        </c:forEach>
@@ -249,8 +243,8 @@ img {
       <div id="NewOrder" class="tabcontent">
 <!-- Giao diện New Order -->
 
-
-<table border="1" cellpadding="5" cellspacing="1" >
+<h1>New Order</h1>
+<table>
        <tr>
           <th>Order ID</th>
           <th>Product ID</th>
@@ -285,8 +279,8 @@ img {
 <!-- Giao diện All Order -->
 
 
-
-<table border="1" cellpadding="5" cellspacing="1" >
+<h1>All Order</h1>
+<table>
        <tr>
           <th>Order ID</th>
           <th>Product ID</th>
@@ -404,4 +398,4 @@ function newElement() {
 </script>
 
 </body>
-</html> 
+</html>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+<%@ page import = "model.Cart" %>
 <%@ page import = "bean.User" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +61,16 @@
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">0</span></button> </li>
+              <li class="nav-item"><button onclick="location.href='${pageContext.request.contextPath}/cart'" type="button"><i class="ti-shopping-cart"></i><span class="nav-shop__circle">
+					<jsp:scriptlet>
+						Cart cart = (Cart) session.getAttribute("NAME_CART");
+						int amountProduct = 0;
+						if(cart != null){
+							amountProduct = cart.getAmountProduct();
+						}
+						out.print(amountProduct);
+					</jsp:scriptlet>
+              </span></button> </li>
               <li class="nav-item"><a class="button button-header" href="${pageContext.request.contextPath}/userInfo">
               Xin Chào, 
               <jsp:scriptlet>

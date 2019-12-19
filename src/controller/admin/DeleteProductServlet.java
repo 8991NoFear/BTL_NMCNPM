@@ -17,7 +17,8 @@ import util.ProductUtil;
 @WebServlet("/admin/deleteProduct")
 public class DeleteProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private final String NAME_ERROR = "NAME_ERROR";
+	
     public DeleteProductServlet() {
         super();
     }
@@ -30,6 +31,9 @@ public class DeleteProductServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/admin");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			request.setAttribute(NAME_ERROR, e.getMessage());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/admin/ErrorPage.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 

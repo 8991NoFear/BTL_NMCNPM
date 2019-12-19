@@ -58,7 +58,7 @@
 							<img class="card-img" src="img/product/${trendingProduct.getImage() }" alt="">
 							<ul class="card-product__imgOverlay">
 							  <li><button onclick="location.href='${pageContext.request.contextPath}/product?productID=${trendingProduct.getProductID()}'" type="button"><i class="ti-search"></i></button></li>
-							  <li><button><i class="ti-shopping-cart"></i></button></li>
+							  <li><button onclick="location.href='${pageContext.request.contextPath}/addToCart?productID=${trendingProduct.getProductID()}'" type="button"><i class="ti-shopping-cart"></i></button></li>
 							  <li><button><i class="ti-heart"></i></button></li>
 							</ul>
 						</div>
@@ -89,7 +89,7 @@
 							<img class="card-img" src="img/product/${product.getImage() }" alt="">
 							<ul class="card-product__imgOverlay">
 							  <li><button onclick="location.href='${pageContext.request.contextPath}/product?productID=${product.getProductID()}'" type="button"><i class="ti-search"></i></button></li>
-							  <li><button><i class="ti-shopping-cart"></i></button></li>
+							  <li><button onclick="location.href='${pageContext.request.contextPath}/addToCart?productID=${product.getProductID()}'" type="button"><i class="ti-shopping-cart"></i></button></li>
 							  <li><button><i class="ti-heart"></i></button></li>
 							</ul>
 						</div>

@@ -115,7 +115,7 @@ public class LoginServlet extends HttpServlet {
             if(user.isAdmin()) {
             	response.sendRedirect(request.getContextPath() + "/admin");
             } else {
-            	response.sendRedirect(request.getContextPath() + "/userinfo");
+            	response.sendRedirect(request.getContextPath() + "/home");
             }
         }
     }
